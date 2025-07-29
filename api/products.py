@@ -1,29 +1,23 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.db import get_session
-from crud.products import ProductsRepository
+from deps.products import get_product_service
 from schemas.product_codes import ProductCodeBind, ProductAggregationResponse, ProductAggregationRequest
+from services.products import ProductsService
 
 router = APIRouter(prefix="/products")
 
 
 @router.post("/", response_model=List[ProductCodeBind])
-async def bind_codes(product_data: List[ProductCodeBind], session: AsyncSession = Depends(get_session)) -> list[
-    ProductCodeBind]:
-    repo = ProductsRepository(session)
-
-    result = await repo.create_products(product_data)
-
-    return result
+async def bind_codes(product_data: List[ProductCodeBind], service: ProductsService = Depends(get_product_service)) -> \
+        list[
+            ProductCodeBind]:
+    return await service.create_products(product_data)
 
 
 @router.post("/aggregate", response_model=ProductAggregationResponse)
 async def create_products_with_aggregation(request: ProductAggregationRequest,
-                                           session: AsyncSession = Depends(get_session)) -> ProductAggregationResponse:
-    repo = ProductsRepository(session)
-    result = await repo.aggregate_product(request.batch_id, request.code)
-
-    return ProductAggregationResponse(code=result.code,aggregated_at=result.aggregated_at)
+                                           service: ProductsService = Depends(
+                                               get_product_service)) -> ProductAggregationResponse:
+    return await service.aggregate_product(request)

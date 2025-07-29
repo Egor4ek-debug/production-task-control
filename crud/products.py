@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from exceptions.http_exceptions import NotFoundException, AnotherPartException
-from interfaces.repositories import IProductsRepository
+from interfaces.products_repository import IProductsRepository
 from models import Batch, ProductCode
 from schemas.product_codes import ProductCodeBind, ProductAggregationResponse
 

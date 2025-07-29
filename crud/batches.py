@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from exceptions.http_exceptions import NotFoundException
-from interfaces.repositories import IBatchRepository
+from interfaces.batch_repository import IBatchRepository
 from models import Batch
 from schemas.batches import BatchCreate, BatchUpdate
 

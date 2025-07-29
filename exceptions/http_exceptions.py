@@ -1,4 +1,4 @@
-from interfaces.repositories import AppHTTPException
+from interfaces.exception_repository import AppHTTPException
 
 
 class NotFoundException(AppHTTPException):
